@@ -14,11 +14,16 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a node.", "bold")
         self.assertNotEqual(node, node2)
 
-    def test_text_type(self):
+    def test_text_type_eq(self):
         node = TextNode("This is a node.", "italic")
         node2 = TextNode("This is a node.", "bold")
         self.assertNotEqual(node, node2)
 
+    def test_repr(self):
+        node = TextNode("This is a node.", "bold", "https://www.boot.dev")
+        self.assertEqual(
+            "TextNode(This is a node., bold, https://www.boot.dev)", repr(node)
+        )
 
 if __name__ == "__main__":
     unittest.main()
