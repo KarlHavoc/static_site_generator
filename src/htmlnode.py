@@ -7,10 +7,34 @@ class HTMLNode:
         self.props = props
 
     def to_html(self):
-        raise NotImplementedError
+        raise NotImplementedError("to_html not implemented yet")
 
     def props_to_html(self):
-        return f' href={self.props["href"]} target={self.props["target"]}'
+        if self.props is None:
+            return ""
+        props_html = ""
+        for prop in self.props:
+            props_html += f" {prop}={self.props[prop]}"
+        return props_html
 
     def __repr__(self) -> str:
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+
+
+class LeafNode(HTMLNode):
+
+    def __init__(self, tag, value, props) -> None:
+        super().__init__(tag, value, props)
+        self.tag = tag
+        self.value = value
+        self.props = props
+
+    def to_html(self):
+        if not self.value:
+            raise ValueError
+        if not self.tag:
+            return f"{self.value}"
+        elif not self.props:
+            return f"<{self.tag}>{self.value}</{self.tag}>"
+        else:
+            return f"<{self.tag} {self.props_to_html()}>{self.value}</{self.tag}>"
