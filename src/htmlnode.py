@@ -7,14 +7,7 @@ class HTMLNode:
         self.props = props
 
     def to_html(self):
-        if not self.value:
-            raise ValueError
-        if not self.tag:
-            return f"{self.value}"
-        elif not self.props:
-            return f"<{self.tag}>{self.value}</{self.tag}>"
-        else:
-            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        raise NotImplementedError("to_html functionality not implemented")
 
     def props_to_html(self):
         if self.props is None:
@@ -30,9 +23,18 @@ class HTMLNode:
 
 class LeafNode(HTMLNode):
 
-    def __init__(self, tag, value, props) -> None:
-        super().__init__(tag, value, props)
-        self.tag = tag
-        self.value = value
-        self.props = props
-        super(LeafNode, self).props_to_html()
+    def __init__(self, tag, value, props=None) -> None:
+        super().__init__(tag, value, None, props)
+
+    def to_html(self):
+        if not self.value:
+            raise ValueError
+        if not self.tag:
+            return f"{self.value}"
+        elif not self.props:
+            return f"<{self.tag}>{self.value}</{self.tag}>"
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+
+    def __repr__(self) -> str:
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
