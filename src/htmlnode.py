@@ -7,14 +7,21 @@ class HTMLNode:
         self.props = props
 
     def to_html(self):
-        raise NotImplementedError("to_html not implemented yet")
+        if not self.value:
+            raise ValueError
+        if not self.tag:
+            return f"{self.value}"
+        elif not self.props:
+            return f"<{self.tag}>{self.value}</{self.tag}>"
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
     def props_to_html(self):
         if self.props is None:
             return ""
         props_html = ""
         for prop in self.props:
-            props_html += f" {prop}={self.props[prop]}"
+            props_html += f' {prop}="{self.props[prop]}"'
         return props_html
 
     def __repr__(self) -> str:
@@ -28,13 +35,4 @@ class LeafNode(HTMLNode):
         self.tag = tag
         self.value = value
         self.props = props
-
-    def to_html(self):
-        if not self.value:
-            raise ValueError
-        if not self.tag:
-            return f"{self.value}"
-        elif not self.props:
-            return f"<{self.tag}>{self.value}</{self.tag}>"
-        else:
-            return f"<{self.tag} {self.props_to_html()}>{self.value}</{self.tag}>"
+        super(LeafNode, self).props_to_html()
