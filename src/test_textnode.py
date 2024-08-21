@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode
+from textnode import TextNode, text_node_to_html_node
 
 
 class TestTextNode(unittest.TestCase):
@@ -24,6 +24,20 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(
             "TextNode(This is a node., bold, https://www.boot.dev)", repr(node)
         )
+
+    def test_text_node_to_html_bold(self):
+        t_node = TextNode("text here", "bold", None)
+        html_node = text_node_to_html_node(t_node)
+        self.assertEqual(html_node.__repr__(), "LeafNode(b, text here, None)")
+
+    def test_text_node_to_html_link(self):
+        t_node = TextNode("click here", "link", "https://www.boot.dev")
+        html_node = text_node_to_html_node(t_node)
+        self.assertEqual(
+            html_node.__repr__(),
+            "LeafNode(a, click here, {'href': 'https://www.boot.dev'})",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
