@@ -67,7 +67,6 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_LeafNode_to_html(self):
         node = LeafNode("a", "Click here", {"href": "https://www.boot.dev"})
-        print(node.__repr__())
         self.assertEqual(
             node.to_html(), '<a href="https://www.boot.dev">Click here</a>'
         )

@@ -48,10 +48,3 @@ def text_node_to_html_node(text_node):
         return new_node
     else:
         raise Exception(f"Invalid text type: {text_node.text_type}")
-
-
-def main():
-    new_node = TextNode("This is a text node", "bold", url="https://www.boot.dev")
-    print(new_node.__repr__())
-
-main()
