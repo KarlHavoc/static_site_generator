@@ -46,17 +46,17 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
 
     def test_block_to_block_type_(self):
         paragraph_text = "This is a paragraph"
-        code_text = "```This is a code block```"
+        code_text = "```\nThis is a code block\n```"
         heading1_text = "# Heading 1"
         heading2_text = "## Heading 2"
         heading3_text = "### Heading 3"
         heading4_text = "#### Heading 4"
         heading5_text = "##### Heading 5"
         heading6_text = "###### Heading 6"
-        unordered_list_asterisk = "* Item 1"
-        unordered_list_dash = "- Item 2"
+        unordered_list_asterisk = "* Item 1\n* Item 2"
+        unordered_list_dash = "- Item 2\n- Item2"
         quote_text = "> This is a quote"
-        ordered_list_text = "1. Item 1"
+        ordered_list_text = "1. Item 1\n2. Item 2"
         self.assertEqual(block_to_block_type(paragraph_text), "paragraph")
         self.assertEqual(block_to_block_type(code_text), "code")
         self.assertEqual(block_to_block_type(heading1_text), "heading")
