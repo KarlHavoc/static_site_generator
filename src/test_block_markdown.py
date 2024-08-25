@@ -53,6 +53,7 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         heading4_text = "#### Heading 4"
         heading5_text = "##### Heading 5"
         heading6_text = "###### Heading 6"
+        more_hashtags = "####### Not a heading"
         unordered_list_asterisk = "* Item 1\n* Item 2"
         unordered_list_dash = "- Item 2\n- Item2"
         quote_text = "> This is a quote"
@@ -65,6 +66,7 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         self.assertEqual(block_to_block_type(heading4_text), "heading")
         self.assertEqual(block_to_block_type(heading5_text), "heading")
         self.assertEqual(block_to_block_type(heading6_text), "heading")
+        self.assertNotEqual(more_hashtags, "heading")
         self.assertEqual(block_to_block_type(unordered_list_asterisk), "unordered_list")
         self.assertEqual(block_to_block_type(unordered_list_dash), "unordered_list")
         self.assertEqual(block_to_block_type(quote_text), "quote")
