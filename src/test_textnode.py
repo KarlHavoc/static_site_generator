@@ -28,7 +28,8 @@ class TestTextNode(unittest.TestCase):
     def test_text_node_to_html_bold(self):
         t_node = TextNode("text here", "bold", None)
         html_node = text_node_to_html_node(t_node)
-        self.assertEqual(html_node.__repr__(), "LeafNode(b, text here, None)")
+        self.assertEqual(html_node.tag, "b")
+        self.assertEqual(html_node.value, "text here")
 
     def test_text_node_to_html_link(self):
         t_node = TextNode("click here", "link", "https://www.boot.dev")

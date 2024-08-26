@@ -29,7 +29,7 @@ class TextNode:
 
 def text_node_to_html_node(text_node):
     if text_node.text_type == "text":
-        new_node = LeafNode(value=text_node.text)
+        new_node = LeafNode(None, text_node.text)
         return new_node
     if text_node.text_type == "bold":
         new_node = LeafNode("b", text_node.text)

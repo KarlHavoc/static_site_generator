@@ -173,3 +173,14 @@ class TestSplitDelimiter(unittest.TestCase):
                 TextNode("link", text_type_link, "https://boot.dev"),
             ],
         )
+
+        text_with_one_node = "This is a **bold** text_node."
+        text_node = text_to_textnodes(text_with_one_node)
+        self.assertEqual(
+            text_node,
+            [
+                TextNode("This is a ", text_type_text),
+                TextNode("bold", text_type_bold),
+                TextNode(" text_node.", text_type_text),
+            ],
+        )
