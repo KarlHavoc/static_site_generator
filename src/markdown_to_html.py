@@ -1,14 +1,14 @@
 from block_markdown import block_to_block_type, markdown_to_blocks
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import LeafNode
 from inline_markdown import text_to_textnodes
 from textnode import text_node_to_html_node
 
-block_type_heading = ("heading",)
-block_type_paragraph = ("paragraph",)
-block_type_code = ("code",)
-block_type_quote = ("quote",)
-block_type_ol = ("ordered_list",)
-block_type_ul = ("unordered_list",)
+block_type_heading = "heading"
+block_type_paragraph = "paragraph"
+block_type_code = "code"
+block_type_quote = "quote"
+block_type_ol = "ordered_list"
+block_type_ul = "unordered_list"
 
 
 def markdown_to_htmlnode(markdown):
@@ -19,19 +19,21 @@ def markdown_to_htmlnode(markdown):
     for block in blocks_list:
         block_type = block_to_block_type(block)
         html_attributes = block_type_to_html_node_attributes(block_type, block)
-        
+
     pass
 
 
 # define function that takes ol or ul and returns list of leafnodes with proper tags for items in list <li></li>
 
-def list_blocks_to_children(HTMLNode):
+
+def list_blocks_to_children(block):
     children = []
-    lines = HTMLNode.value.split("\n")
+    lines = block.split("\n")
     for line in lines:
         line_text = line[2:]
         children.append(LeafNode("li", line_text))
     return children
+
 
 # converts text to list textnodes then converts textnodes to leafnodes
 def text_to_children(text):
@@ -73,4 +75,4 @@ def block_type_to_html_node_attributes(block_type, block_text):
     if block_type == block_type_ul:
         html_attributes["tag"] = "ul"
         html_attributes["value"] = block_text
-        return html_attributes
+    return html_attributes
