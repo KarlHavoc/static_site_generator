@@ -23,8 +23,13 @@ def markdown_to_htmlnode(markdown):
     pass
 
 
-# define function that takes ol or ul and returns list of leafnodes with proper tags for items in list <li></li>
+# define function that takes pre tag and returns a child with code tag
+def code_blocks_to_child(block):
+    block_text = block[3:-3]
+    child = LeafNode("code", block_text)
+    return child
 
+# define function that takes ol or ul and returns list of leafnodes with proper tags for items in list <li></li>
 
 def list_blocks_to_children(block):
     children = []
@@ -56,7 +61,7 @@ def block_type_to_html_node_attributes(block_type, block_text):
         html_attributes["value"] = block_text
 
     if block_type == block_type_code:
-        html_attributes["tag"] = "code"
+        html_attributes["tag"] = "pre"
         html_attributes["value"] = block_text
 
     if block_type == block_type_heading:

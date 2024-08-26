@@ -3,6 +3,7 @@ import unittest
 from markdown_to_html import (
     block_type_paragraph,
     block_type_to_html_node_attributes,
+    code_blocks_to_child,
     list_blocks_to_children,
     text_to_children,
 )
@@ -10,6 +11,7 @@ from markdown_to_html import (
 block_text_paragraph = "This is a paragraph"
 block_text_bold = "This is text **with** bold text"
 block_text_list = "* Item 1\n* Item 2\n* Item 3"
+block_text_code = "```This is a code block```"
 
 
 class TestMarkdownToHtml(unittest.TestCase):
@@ -37,6 +39,11 @@ class TestMarkdownToHtml(unittest.TestCase):
         self.assertEqual(children[1].value, "Item 2")
         self.assertEqual(children[2].tag, "li")
         self.assertEqual(children[2].value, "Item 3")
+
+    def test_code_blocks_to_child(self):
+        child = code_blocks_to_child(block_text_code)
+        self.assertEqual(child.tag, "code")
+        self.assertEqual(child.value, "This is a code block")
 
     # def test_markdown_to_htmlnode(self):
 
