@@ -95,11 +95,11 @@ def split_nodes_link(old_nodes):
 
 
 def text_to_textnodes(text_to_split):
-    node = TextNode(text_to_split, text_type_text)
-    bold_nodes = split_nodes_delimiter([node], "**", text_type_bold)
-    italic_nodes = split_nodes_delimiter(bold_nodes, "*", text_type_italic)
-    code_nodes = split_nodes_delimiter(italic_nodes, "`", text_type_code)
-    image_nodes = split_nodes_image(code_nodes)
-    link_nodes = split_nodes_link(image_nodes)
+    nodes = TextNode(text_to_split, text_type_text)
+    nodes = split_nodes_delimiter([nodes], "**", text_type_bold)
+    nodes = split_nodes_delimiter(nodes, "*", text_type_italic)
+    nodes = split_nodes_delimiter(nodes, "`", text_type_code)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
 
-    return link_nodes
+    return nodes
