@@ -7,6 +7,7 @@ from markdown_to_html import (
     code_blocks_to_child,
     get_children_leafnodes,
     list_blocks_to_children,
+    markdown_to_htmlnode,
     text_to_children,
 )
 
@@ -14,6 +15,14 @@ block_text_paragraph = "This is a paragraph"
 block_text_bold = "This is text **with** bold text"
 block_text_list = "* Item 1\n* Item 2\n* Item 3"
 block_text_code = "```This is a code block```"
+
+md_text = """## This is a heading
+
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is the first list item in a list block
+* This is a list item
+* This is another list item"""
 
 
 class TestMarkdownToHtml(unittest.TestCase):
@@ -45,8 +54,8 @@ class TestMarkdownToHtml(unittest.TestCase):
 
     def test_code_blocks_to_child(self):
         child = code_blocks_to_child(block_text_code)
-        self.assertEqual(child.tag, "code")
-        self.assertEqual(child.value, "This is a code block")
+        self.assertEqual(child[0].tag, "code")
+        self.assertEqual(child[0].value, "This is a code block")
 
     def test_get_children_leafnodes(self):
         node = HTMLNode("p", block_text_bold)
@@ -65,23 +74,18 @@ class TestMarkdownToHtml(unittest.TestCase):
         self.assertEqual(children1[1].value, "Item 2")
         self.assertEqual(children1[2].tag, "li")
         self.assertEqual(children1[2].value, "Item 3")
-        code_list = HTMLNode("code", block_text_code)
-        children2 = get_children_leafnodes(code_list.value, "pre", code_list)
-        self.assertEqual(children2.tag, "code"),
-        self.assertEqual(children2.value, "This is a code block"),
+        code_node = HTMLNode("code", block_text_code)
+        children2 = get_children_leafnodes(code_node.value, "pre", code_node)
+        self.assertEqual(children2[0].tag, "code"),
+        self.assertEqual(children2[0].value, "This is a code block"),
 
-    # def test_markdown_to_htmlnode(self):
-
-
-#     parent_node = markdown_to_htmlnode(block_text_bold)
-#     self.assertEqual(
-#         parent_node,
-#         ParentNode(
-#             "div",
-#             [
-#                 LeafNode(None, "This is text "),
-#                 LeafNode("b", "with"),
-#                 LeafNode(None, " bold text"),
-#             ],
-#         ),
-#     )
+    def test_markdown_to_htmlnode(self):
+        main_node = markdown_to_htmlnode(md_text)
+        child_list = main_node.children
+        self.assertEqual(main_node.tag, "div")
+        self.assertEqual(child_list[0].tag, "h2")
+        self.assertEqual(child_list[0].value, "## This is a heading")
+        self.assertEqual(child_list[1].children[0].tag, None)
+        self.assertEqual(
+            child_list[1].children[0].value, "This is a paragraph of text. It has some "
+        )
