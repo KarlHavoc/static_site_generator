@@ -16,7 +16,7 @@ def main():
 def copy_static_to_public(directories, file_path_to_copy, destination_file_path):
     # public_path = "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/public"
     # static_path = "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/static"
-    
+
     # if len(directories) > 0:
     #     for dir in directories:
     #         new_path = os.path.join(static_path, dir)
@@ -40,9 +40,6 @@ def copy_static_to_public(directories, file_path_to_copy, destination_file_path)
             os.mkdir(new_destination_path)
             directories = os.listdir(new_path)
             copy_static_to_public(directories, new_path, new_destination_path)
-                
-
-    
 
 
 main()
