@@ -1,6 +1,9 @@
 import os
 import shutil
 
+from extract_markdown import extract_title
+from markdown_to_html import markdown_to_htmlnode
+
 
 def main():
     public_path = "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/public"
@@ -10,7 +13,11 @@ def main():
     os.mkdir(public_path)
     directories = os.listdir(static_path)
     copy_static_to_public(directories, static_path, public_path)
-    # need to make function that takes a file path and recurses and copies everything from file_path to public directory
+    generate_page(
+        "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/content/index.md",
+        "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/template.html",
+        "/Users/michaelkowalsky/workspace/github.com/KarlHavoc/static_site_generator/public/index.html",
+    )
 
 
 def copy_static_to_public(directories, file_path_to_copy, destination_file_path):
@@ -40,6 +47,25 @@ def copy_static_to_public(directories, file_path_to_copy, destination_file_path)
             os.mkdir(new_destination_path)
             directories = os.listdir(new_path)
             copy_static_to_public(directories, new_path, new_destination_path)
+
+
+def generate_page(from_path, template_path, dest_path):
+    print(f"Generating page {from_path} to {dest_path} using {template_path}")
+
+    with open(from_path, "r") as md_file:
+        markdown_text = md_file.read()
+    with open(template_path, "r") as html_file:
+        html_text = html_file.read()
+
+    htmlnode = markdown_to_htmlnode(markdown_text)
+    node_to_html = htmlnode.to_html()
+    title = extract_title(markdown_text)
+    html_text.replace("{{ Title }}", title)
+    html_text.replace("{{ Content }}", node_to_html)
+    if not os.path.dirname(dest_path):
+        os.makedirs(dest_path)
+    with open(dest_path, "w") as file:
+        file.write(html_text)
 
 
 main()
