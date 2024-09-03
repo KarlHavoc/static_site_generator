@@ -1,5 +1,5 @@
 from block_markdown import block_to_block_type, markdown_to_blocks
-from htmlnode import LeafNode, ParentNode
+from htmlnode import ParentNode
 from inline_markdown import text_to_textnodes
 from textnode import text_node_to_html_node
 
@@ -29,9 +29,9 @@ def block_to_html_node(block):
     if block_type == block_type_code:
         return code_to_html_node(block)
     if block_type == block_type_ol:
-        return ol_to_html_node(block)
+        return olist_to_html_node(block)
     if block_type == block_type_ul:
-        return ul_to_html_node(block)
+        return ulist_to_html_node(block)
     if block_type == block_type_quote:
         return quote_to_html_node(block)
     raise ValueError("Invalid block type")
@@ -82,19 +82,21 @@ def quote_to_html_node(block):
     return ParentNode("blockquote", children)
 
 
-def ol_to_html_node(block):
-    children = []
-    lines = block.split("\n")
-    for line in lines:
-        line_text = line[3:]
-        children.append(LeafNode("li", line_text))
-    return ParentNode(block_type_ol, children)
+def olist_to_html_node(block):
+    items = block.split("\n")
+    html_items = []
+    for item in items:
+        text = item[3:]
+        children = text_to_children(text)
+        html_items.append(ParentNode("li", children))
+    return ParentNode("ol", html_items)
 
 
-def ul_to_html_node(block):
-    children = []
-    lines = block.split("\n")
-    for line in lines:
-        line_text = line[2:]
-        children.append(LeafNode("li", line_text))
-    return ParentNode(block_type_ul, children)
+def ulist_to_html_node(block):
+    items = block.split("\n")
+    html_items = []
+    for item in items:
+        text = item[2:]
+        children = text_to_children(text)
+        html_items.append(ParentNode("li", children))
+    return ParentNode("ul", html_items)

@@ -2,7 +2,7 @@ import os
 import shutil
 
 from extract_markdown import extract_title
-from markdown_to_html import markdown_to_htmlnode
+from markdown_to_html import markdown_to_html_node
 
 
 def main():
@@ -38,9 +38,7 @@ def copy_static_to_public(directories, file_path_to_copy, destination_file_path)
     for dir in directories:
 
         new_path = os.path.join(file_path_to_copy, dir)
-        print(f"this is the new path {new_path}")
         if os.path.isfile(new_path):
-            print(f"this is a file {new_path}")
             shutil.copy(new_path, destination_file_path)
         else:
             new_destination_path = destination_file_path + "/" + dir
@@ -57,11 +55,14 @@ def generate_page(from_path, template_path, dest_path):
     with open(template_path, "r") as html_file:
         html_text = html_file.read()
 
-    htmlnode = markdown_to_htmlnode(markdown_text)
+    htmlnode = markdown_to_html_node(markdown_text)
     node_to_html = htmlnode.to_html()
+    # print(node_to_html)
     title = extract_title(markdown_text)
-    html_text.replace("{{ Title }}", title)
-    html_text.replace("{{ Content }}", node_to_html)
+    # print(title)
+    html_text = html_text.replace("{{ Title }}", title)
+    html_text = html_text.replace("{{ Content }}", node_to_html)
+    # print(html_text)
     if not os.path.dirname(dest_path):
         os.makedirs(dest_path)
     with open(dest_path, "w") as file:
